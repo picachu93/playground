@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=c99
 all: playground
 playground: playground.o
 	$(CC) $(CFLAGS) -o playground playground.o

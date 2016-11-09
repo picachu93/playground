@@ -4,6 +4,7 @@
 #include <string.h>
 
 int grid[700][700];
+int B[700];
 int EXIT_STATUS = 0;
 /*-----------------Main Code-------------------------------------------*/
 
@@ -33,37 +34,57 @@ int main (int argc, char** argv) {
     }
 
   }
+/*---------------First  Debugging---------------------*/
+  for( int i=0; i<N; i++) {
+
+    for( int j=0; j<N; j++) {
+
+      printf("%d", grid[i][j]);
+
+    }
+
+    printf( "\n");
+
+  }
+  printf("\n");
+/*---------------------------------*/
 
 /**
   * pSum is the prefix currSums of the original matrix
   */
-  int pSum[N][N];
+  int pSum[ N+1 ][N];
   int tSum;
   for(int j = 0; j < N; j++) {
     
     tSum = 0;
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i <= N; i++) {
       
-      tSum = tSum + grid[i][j];
-      pSum[i][j] = tSum;
+      if ( i == 0) {
+        
+        pSum[i][j] = 0;
+   
+      } else {
+
+        tSum = tSum + grid[i-1][j];
+        pSum[i][j] = tSum;
+      }
 
     } 
 
   }
 
 /*---------------Second  Debugging---------------------*/
-  for(int i=0;i<N;i++) {
+  for( int i=0; i<=N; i++) {
 
-    for(int j=0;j<N;j++) {
+    for( int j=0; j<N; j++) {
 
-      printf("%d",pSum[i][j]);
+      printf("%d", pSum[i][j]);
 
     }
 
-    printf("\n");
+    printf( "\n");
 
   }
-
 /*---------------------------------*/
 /**
   * (i)For each pair of rows let be p,q it is counted the sub-
@@ -84,31 +105,73 @@ int main (int argc, char** argv) {
   int end;
   int currSum;
   int result = 0;
-  for ( int p = 0; p < N; p++ ) {
+  printf("\n");
+  for ( int p = 1; p <= N; p++ ) {
 
-    for ( int q = 0; q < N; q++ ) {
+    for ( int q = 1; q <= N; q++ ) {
+      
+      if ( p > q ) { 
+ 
+        continue;
+
+      }
 
       start = 0;
       end = 0;
-      currSum = pSum[q][0] - pSum[p][0];
-      while ( end < N ) {
+      /*-------------------Third Debugging------------------*/
+      for ( int j = 0; j < N; j++) {
+   
+        B[j] = pSum[q][j] - pSum[ p - 1 ][j];
+        printf("%d", B[j]);
+
+      }
+     /*----------------------------------------------------*/ 
+      printf("\n");
+      currSum = B[0];
+      while ( end <= N ) {
        
         if ( currSum == K ) {
+         
+         if ( end == N) {
+ 
+            currSum = currSum - B[start];
+            start++;
+	    if (currSum == K) {
+
+               result++;
+               printf("The result from %d to %d is %d \n", start, end, result);
+
+            } 
+
+            continue;  
+       
+          } else {
 
           result++;
+          printf("The result from %d to %d is %d \n", start, end, result);
+         
+          }
 
-        } else if ( currSum < K ) {
+        }
+  
+      if ( end == N ) {
+
+        break;
+
+      }
+ 
+      if ( currSum <= K ) {
 
           end++;
           if ( end < N) {
 
-            currSum = currSum + ( pSum[q][end] - pSum[p][end] );
+            currSum = currSum + B[end];
 
           }
 
         } else {
 
-          currSum = currSum - ( pSum[q][start] - pSum[p][start] );
+          currSum = currSum - B[start];
           start++;
 
         }
@@ -116,9 +179,11 @@ int main (int argc, char** argv) {
       }
 
     }
-  }
 
-  fclose(fp);
+  }
+  
+  printf("The result is %d \n", result);
+  fclose( fp);
   return EXIT_STATUS;
 
   }

@@ -1,3 +1,17 @@
+/* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+
+* File Name : playground.c
+
+* Purpose : Educatonal
+
+* Creation Date : 10-11-2016
+
+* Last Modified : Sun 13 Nov 2016 02:05:39 PM EET
+
+* Created By :  Stamatios Anoustis
+
+_._._._._._._._._._._._._._._._._._._._._.*/
+
 /*------------------Includes and global definitions---------------------*/
 #include <stdio.h> 
 #include <stdlib.h>
@@ -5,6 +19,7 @@
 
 int grid[700][700];
 int B[700];
+char str[700];
 int EXIT_STATUS = 0;
 /*-----------------Main Code-------------------------------------------*/
 
@@ -13,6 +28,7 @@ int main (int argc, char** argv) {
   FILE *fp = fopen(argv[1],"r");
   int N;
   int K;
+  char chr;
   if( fp == NULL) {
 
     perror("Error while opening the file.\n");
@@ -27,9 +43,12 @@ int main (int argc, char** argv) {
 
   for(int i=0;i<N;i++) {
 
+    fscanf(fp, "%s", str);
+
     for(int j=0;j<N;j++) {
 
-      fscanf(fp, "%d", &grid[i][j]);
+      chr = str[j];
+      grid[i][j] = (int)(chr - '0');
 
     }
 
@@ -69,7 +88,7 @@ int main (int argc, char** argv) {
         pSum[i][j] = tSum;
       }
 
-    } 
+    }
 
   }
 
@@ -88,7 +107,7 @@ int main (int argc, char** argv) {
 /*---------------------------------*/
 /**
   * (i)For each pair of rows let be p,q it is counted the sub-
-  * arrays with currSum k.AscurrSumed that  p < q.
+  * Bays with currSum k.AscurrSumed that  p < q.
   * (ii)It is  established a two point algorithm which uses 
   * two pointers the start and the end starting in column
   * zero.
@@ -128,56 +147,74 @@ int main (int argc, char** argv) {
      /*----------------------------------------------------*/ 
       printf("\n");
       currSum = B[0];
-      while ( end <= N ) {
-       
-        if ( currSum == K ) {
-         
-         if ( end == N) {
- 
-            currSum = currSum - B[start];
-            start++;
-	    if (currSum == K) {
+      while ( end < N) {
+        
+        if ( currSum == K) {
 
-               result++;
-               printf("The result from %d to %d is %d \n", start, end, result);
+          int d_end = 0;
+          int d_start = 0;
+	  if ( end + 1 < N) {
 
-            } 
+            while ( B[end + 1] == 0) {
 
-            continue;  
-       
-          } else {
+              end++;
+              d_end++;
+	      if ( end + 1 >= N ) {
 
-          result++;
+                break;
+	      
+	      }
+
+	    }
+
+	  }
+
+          //currSum += B[end];
+	  if ( start < N) {
+
+            while ( B[start] == 0) {               
+	      
+              start++;
+              d_start++;
+              if (start >= N) {
+
+		break;
+		  
+              }
+
+            }
+
+	  }
+
+	  result += ( (d_end + 1) * (d_start + 1) );
+          currSum -= B[start];
+          start++;
           printf("The result from %d to %d is %d \n", start, end, result);
-         
-          }
-
-        }
-  
-      if ( end == N ) {
-
-        break;
-
-      }
- 
-      if ( currSum <= K ) {
+        
+	}       
+      
+        if ( currSum <= K) {
 
           end++;
           if ( end < N) {
 
-            currSum = currSum + B[end];
+            currSum += B[end];
 
           }
 
         } else {
 
-          currSum = currSum - B[start];
           start++;
+          if ( start < N) {
+
+            currSum -= B[start];
+
+          }
 
         }
- 
-      }
 
+      }
+     
     }
 
   }
@@ -186,4 +223,7 @@ int main (int argc, char** argv) {
   fclose( fp);
   return EXIT_STATUS;
 
-  }
+}
+
+
+

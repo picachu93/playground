@@ -6,7 +6,7 @@
 
 * Creation Date : 13-11-2016
 
-* Last Modified : Sun 13 Nov 2016 03:46:12 PM EET
+* Last Modified : Sun 13 Nov 2016 05:00:50 PM EET
 
 * Created By :  Stamatios Anoustis
 
@@ -185,7 +185,8 @@ int main (int argc, char** argv) {
 
   }
   
-  printf("%d \n", result);
+  printf("%d", result);
+  printf("\n");
   fclose( fp);
   return EXIT_STATUS;
 

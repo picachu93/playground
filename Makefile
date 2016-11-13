@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -g -Wall -std=c99
-all: playground 
-playground: playground.o
-	$(CC) $(CFLAGS) -o playground playground.o
+all: playg 
+playg: playg.o
+	$(CC) $(CFLAGS) -o playg playg.o
 
-playground.o: playground.c
-	$(CC) $(CFLAGS) -c playground.c
+playg.o: playg.c
+	$(CC) $(CFLAGS) -c playg.c
 clean: 
 	$(RM) $(all)

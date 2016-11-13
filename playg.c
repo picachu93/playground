@@ -1,12 +1,12 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 
-* File Name : playground.c
+* File Name : playg.c
 
-* Purpose : Educatonal
+* Purpose : Educational
 
-* Creation Date : 10-11-2016
+* Creation Date : 13-11-2016
 
-* Last Modified : Sun 13 Nov 2016 03:34:02 PM EET
+* Last Modified : Sun 13 Nov 2016 03:46:12 PM EET
 
 * Created By :  Stamatios Anoustis
 
@@ -17,9 +17,9 @@ _._._._._._._._._._._._._._._._._._._._._.*/
 #include <stdlib.h>
 #include <string.h>
 
-int grid[700][700];
-int B[700];
-char str[700];
+int grid[701][701];
+int B[701];
+char str[701];
 int EXIT_STATUS = 0;
 /*-----------------Main Code-------------------------------------------*/
 
@@ -37,10 +37,7 @@ int main (int argc, char** argv) {
   } else {
 
     fscanf(fp, "%d", &N);
-    printf("%d ", N);
     fscanf(fp, "%d", &K);
-    printf("%d \n", K);
-    
 
   }
 
@@ -56,21 +53,6 @@ int main (int argc, char** argv) {
     }
 
   }
-/*---------------First  Debugging---------------------*/
-  for( int i=0; i<N; i++) {
-
-    for( int j=0; j<N; j++) {
-
-      printf("%d", grid[i][j]);
-
-    }
-
-    printf( "\n");
-
-  }
-
-  printf("\n");
-/*---------------------------------*/
 
 /**
   * pSum is the prefix currSums of the original matrix
@@ -96,19 +78,6 @@ int main (int argc, char** argv) {
 
   }
 
-/*---------------Second  Debugging---------------------*/
-  for( int i=0; i<=N; i++) {
-
-    for( int j=0; j<N; j++) {
-
-      printf("%d", pSum[i][j]);
-
-    }
-
-    printf( "\n");
-
-  }
-/*---------------------------------*/
 /**
   * (i)For each pair of rows let be p,q it is counted the sub-
   * Bays with currSum k.AscurrSumed that  p < q.
@@ -128,7 +97,6 @@ int main (int argc, char** argv) {
   int end;
   int currSum;
   int result = 0;
-  printf("\n");
   for ( int p = 1; p <= N; p++ ) {
 
     for ( int q = 1; q <= N; q++ ) {
@@ -141,15 +109,12 @@ int main (int argc, char** argv) {
 
       start = 0;
       end = 0;
-      /*-------------------Third Debugging------------------*/
       for ( int j = 0; j < N; j++) {
    
         B[j] = pSum[q][j] - pSum[ p - 1 ][j];
-        printf("%d", B[j]);
 
       }
-     /*----------------------------------------------------*/ 
-      printf("\n");
+
       currSum = B[0];
       while ( end < N) {
         
@@ -173,7 +138,6 @@ int main (int argc, char** argv) {
 
 	  }
 
-          //currSum += B[end];
 	  if ( start < N) {
 
             while ( B[start] == 0) {               
@@ -191,9 +155,6 @@ int main (int argc, char** argv) {
 	  }
 
 	  result += ( (d_end + 1) * (d_start + 1) );
-          printf("The result from %d to %d is %d \n", start, end, result);
-          //currSum -= B[start];
-          //start++;
         
 	}       
       
@@ -213,7 +174,7 @@ int main (int argc, char** argv) {
             currSum -= B[start];
 
           }
-          
+
           start++;
 
         }
@@ -224,11 +185,8 @@ int main (int argc, char** argv) {
 
   }
   
-  printf("The result is %d \n", result);
+  printf("%d \n", result);
   fclose( fp);
   return EXIT_STATUS;
 
 }
-
-
-
